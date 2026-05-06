@@ -23,16 +23,14 @@ jobs:
       - name: Verify output
         run: |
           test -f dist/index.html
-          test -f dist/styles.css
-          test -f dist/app.js
-          grep -q "Northcrest Roofing Co." dist/index.html
-          grep -q "estimate-request" dist/index.html
-          grep -q "sticky-mobile" dist/styles.css
-          grep -q "A roofing website built to turn local roof problems into calls and estimates" dist/app.js
-          grep -q "Project priority" dist/app.js
-          grep -q "Are you the property owner" dist/app.js
-          grep -q "Lead Delivery" dist/app.js
-          grep -q "Why a Roofing Owner Would Care" dist/app.js
-          grep -q "Your estimate request has been received" dist/app.js
-          ! grep -qi "Licensed & Insured" dist/app.js
-          ! grep -qi "25 years" dist/app.js
+          test -f dist/thank-you.html
+          test -f dist/_redirects
+          grep -q "SummitLine Roofing" dist/index.html
+          grep -q "Roof repair and replacement quotes without the back-and-forth." dist/index.html
+          grep -q "Request your roofing quote" dist/index.html
+          grep -q "roofing-lead" dist/index.html
+          grep -q "Your quote request has been received" dist/thank-you.html
+          ! grep -qi "Capture high-intent roofing leads" dist/index.html
+          ! grep -qi "Licensed & Insured" dist/index.html
+          ! grep -qi "25 years" dist/index.html
+          ! grep -qi "Verified reviews" dist/index.html
