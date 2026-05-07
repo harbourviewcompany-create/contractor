@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{const nav=document.querySelector('.nav');const toggle=document.querySelector('[data-mobile-toggle]');if(toggle&&nav){toggle.addEventListener('click',()=>nav.classList.toggle('open'));}});
