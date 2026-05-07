@@ -1,19 +1,38 @@
-# SummitLine Roofing Demo
+# Vail Renovations V1 Launch Candidate
 
-Static Netlify-ready roofing quote-capture site for `harbourviewcompany-create/contractor`.
+Static Netlify-ready website for Vail Renovations built around the Vail Home Command concept.
+
+## Routes
+
+- /
+- /start-a-project
+- /handyman-services
+- /renovations
+- /fix-list-builder
+- /maintenance-plans
+- /inspection-report-repairs
+- /pricing
+- /not-a-fit
+- /service-areas
+- /contact
+- /thank-you
+
+## Netlify Forms
+
+Included forms:
+
+- `vail-project-intake`
+- `vail-fix-list`
+- `vail-maintenance-plan`
+- `vail-inspection-report`
 
 ## Deploy
 
 Netlify settings:
 
-- Build command: `npm run build`
-- Publish directory: `dist`
-- Base directory: blank
+- Build command: leave blank or use `npm run check`
+- Publish directory: `.`
 
-## Form
+## Launch note
 
-The lead form is named `roofing-lead` and uses Netlify Forms with a honeypot field. Successful submissions redirect to `/thank-you`.
-
-## Demo integrity note
-
-This is a fictional demo contractor site. Replace contact details, service area, licensing, insurance, warranty and review claims before adapting it for a real roofing company. Do not present proof slots or example feedback as verified customer proof.
+Replace service-area, phone, warranty and business-specific details once final operating information is confirmed.
