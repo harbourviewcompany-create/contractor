@@ -1,1 +1,1 @@
-{"scripts":{"build":"node build.mjs"},"devDependencies":{}}
+{"name":"vail-renovations-static-site","version":"1.0.0","private":true,"description":"Static Netlify-ready website for Vail Renovations.","scripts":{"check":"node scripts/check-site.js","start":"npx serve .","preview":"npx serve ."},"devDependencies":{"serve":"^14.2.4"}}
