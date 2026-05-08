@@ -1,1 +1,45 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inspection Report Repairs | Vail Renovations</title><link rel="stylesheet" href="/assets/styles.css"></head><body><main class="section"><div class="container"><h1>Inspection Report Repairs</h1><p>Upload an inspection report and supporting photos for review.</p><form name="vail-inspection-report" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" action="/thank-you" class="card"><input type="hidden" name="form-name" value="vail-inspection-report"><p style="display:none"><label>Do not fill this out <input name="bot-field"></label></p><p><label>Name<br><input required name="name"></label></p><p><label>Email<br><input required type="email" name="email"></label></p><p><label>Closing timeline<br><input name="timeline"></label></p><p><label>Inspection report and photos<br><input required type="file" name="files" multiple></label></p><button class="btn btn-primary" type="submit">Upload Report</button></form></div></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Inspection Report Repairs | Vail Renovations</title>
+  <meta name="description" content="Upload an inspection report and supporting photos for Vail Renovations review.">
+  <link rel="canonical" href="https://vail-renovations.netlify.app/inspection-report-repairs">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/">Vail Renovations <span>Vail Home Command</span></a>
+      <a class="btn btn-secondary" href="/">Home</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero compact-hero">
+      <div class="container">
+        <p class="eyebrow">Inspection report repairs</p>
+        <h1>Sort inspection items into a practical repair path.</h1>
+        <p>Upload the report and supporting photos so repairable items, timing and specialist needs can be reviewed clearly.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container narrow">
+        <form name="vail-inspection-report" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" action="/thank-you" class="card form-card">
+          <input type="hidden" name="form-name" value="vail-inspection-report">
+          <p class="hidden-field"><label>Do not fill this out <input name="bot-field"></label></p>
+          <label>Name<input required name="name" autocomplete="name"></label>
+          <label>Email<input required type="email" name="email" autocomplete="email"></label>
+          <label>Phone<input name="phone" autocomplete="tel"></label>
+          <label>Property address or service area<input required name="service-area"></label>
+          <label>Closing or repair timeline<input name="timeline"></label>
+          <label>Inspection report and photos<input required type="file" name="files" multiple></label>
+          <label>Priority notes<textarea name="notes" rows="5"></textarea></label>
+          <label class="check-row"><input required type="checkbox" name="consent" value="yes"> I agree Vail Renovations may review this request and contact me.</label>
+          <button class="btn btn-primary" type="submit">Upload Report</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

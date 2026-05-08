@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vail-renovations.netlify.app/sitemap.xml

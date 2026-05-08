@@ -1,21 +1,15 @@
-# Vail Renovations V1 Launch Candidate
+# Vail Renovations Static Site
 
-Static Netlify-ready website for Vail Renovations built around the Vail Home Command concept.
+Static Netlify-ready website for Vail Renovations built around the Vail Home Command intake paths.
 
-## Routes
+## Required routes
 
-- /
-- /start-a-project
-- /handyman-services
-- /renovations
-- /fix-list-builder
-- /maintenance-plans
-- /inspection-report-repairs
-- /pricing
-- /not-a-fit
-- /service-areas
-- /contact
-- /thank-you
+- `/`
+- `/start-a-project`
+- `/fix-list-builder`
+- `/maintenance-plans`
+- `/inspection-report-repairs`
+- `/thank-you`
 
 ## Netlify Forms
 
@@ -30,9 +24,8 @@ Included forms:
 
 Netlify settings:
 
-- Build command: leave blank or use `npm run check`
+- Base directory: blank
+- Build command: blank
 - Publish directory: `.`
 
-## Launch note
-
-Replace service-area, phone, warranty and business-specific details once final operating information is confirmed.
+Run `npm run check` before deploying.

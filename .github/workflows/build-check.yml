@@ -1,4 +1,4 @@
-name: Build Check
+name: Static Site Check
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,19 +18,5 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install
-      - name: Build
-        run: npm run build
-      - name: Verify output
-        run: |
-          test -f dist/index.html
-          test -f dist/thank-you.html
-          test -f dist/_redirects
-          grep -q "SummitLine Roofing" dist/index.html
-          grep -q "Roof repair and replacement quotes without the back-and-forth." dist/index.html
-          grep -q "Request your roofing quote" dist/index.html
-          grep -q "roofing-lead" dist/index.html
-          grep -q "Your quote request has been received" dist/thank-you.html
-          ! grep -qi "Capture high-intent roofing leads" dist/index.html
-          ! grep -qi "Licensed & Insured" dist/index.html
-          ! grep -qi "25 years" dist/index.html
-          ! grep -qi "Verified reviews" dist/index.html
+      - name: Check static site
+        run: npm run check

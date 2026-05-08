@@ -1,1 +1,44 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fix List Builder | Vail Renovations</title><link rel="stylesheet" href="/assets/styles.css"></head><body><main class="section"><div class="container"><h1>Fix List Builder</h1><p>Group multiple small repairs into one organized service request.</p><form name="vail-fix-list" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" action="/thank-you" class="card"><input type="hidden" name="form-name" value="vail-fix-list"><p style="display:none"><label>Do not fill this out <input name="bot-field"></label></p><p><label>Name<br><input required name="name"></label></p><p><label>Email<br><input required type="email" name="email"></label></p><p><label>Fix list<br><textarea required name="tasks"></textarea></label></p><p><label>Photos<br><input required type="file" name="files" multiple></label></p><button class="btn btn-primary" type="submit">Submit Fix List</button></form></div></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Fix List Builder | Vail Renovations</title>
+  <meta name="description" content="Group multiple Vail Renovations repair tasks into one organized fix-list request.">
+  <link rel="canonical" href="https://vail-renovations.netlify.app/fix-list-builder">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/">Vail Renovations <span>Vail Home Command</span></a>
+      <a class="btn btn-secondary" href="/">Home</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero compact-hero">
+      <div class="container">
+        <p class="eyebrow">Fix list builder</p>
+        <h1>Group small repairs into one organized request.</h1>
+        <p>Use this path when there are several home tasks that need a clear list, photos and practical review before scheduling.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container narrow">
+        <form name="vail-fix-list" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" action="/thank-you" class="card form-card">
+          <input type="hidden" name="form-name" value="vail-fix-list">
+          <p class="hidden-field"><label>Do not fill this out <input name="bot-field"></label></p>
+          <label>Name<input required name="name" autocomplete="name"></label>
+          <label>Email<input required type="email" name="email" autocomplete="email"></label>
+          <label>Phone<input name="phone" autocomplete="tel"></label>
+          <label>Service area<input required name="service-area"></label>
+          <label>Fix list<textarea required name="tasks" rows="7"></textarea></label>
+          <label>Photos<input required type="file" name="files" multiple></label>
+          <label class="check-row"><input required type="checkbox" name="consent" value="yes"> I agree Vail Renovations may review this request and contact me.</label>
+          <button class="btn btn-primary" type="submit">Submit Fix List</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,1 +1,50 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maintenance Plans | Vail Renovations</title><link rel="stylesheet" href="/assets/styles.css"></head><body><main class="section"><div class="container"><h1>Maintenance Plans</h1><p>Seasonal and annual home maintenance support.</p><form name="vail-maintenance-plan" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="card"><input type="hidden" name="form-name" value="vail-maintenance-plan"><p style="display:none"><label>Do not fill this out <input name="bot-field"></label></p><p><label>Name<br><input required name="name"></label></p><p><label>Email<br><input required type="email" name="email"></label></p><p><label>Property type<br><input name="property"></label></p><p><label>Maintenance concerns<br><textarea name="notes"></textarea></label></p><button class="btn btn-primary" type="submit">Request Maintenance Review</button></form></div></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Maintenance Plans | Vail Renovations</title>
+  <meta name="description" content="Request seasonal or annual home maintenance support from Vail Renovations.">
+  <link rel="canonical" href="https://vail-renovations.netlify.app/maintenance-plans">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/">Vail Renovations <span>Vail Home Command</span></a>
+      <a class="btn btn-secondary" href="/">Home</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero compact-hero">
+      <div class="container">
+        <p class="eyebrow">Maintenance plans</p>
+        <h1>Plan routine home maintenance before small issues stack up.</h1>
+        <p>Share property details, seasonal concerns and the level of support you want reviewed.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container narrow">
+        <form name="vail-maintenance-plan" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="card form-card">
+          <input type="hidden" name="form-name" value="vail-maintenance-plan">
+          <p class="hidden-field"><label>Do not fill this out <input name="bot-field"></label></p>
+          <label>Name<input required name="name" autocomplete="name"></label>
+          <label>Email<input required type="email" name="email" autocomplete="email"></label>
+          <label>Phone<input name="phone" autocomplete="tel"></label>
+          <label>Property type<input required name="property"></label>
+          <label>Maintenance cadence<select required name="cadence">
+            <option value="">Choose one</option>
+            <option>Seasonal review</option>
+            <option>Annual plan</option>
+            <option>Rental turnover support</option>
+            <option>Not sure yet</option>
+          </select></label>
+          <label>Maintenance concerns<textarea required name="notes" rows="6"></textarea></label>
+          <label class="check-row"><input required type="checkbox" name="consent" value="yes"> I agree Vail Renovations may review this request and contact me.</label>
+          <button class="btn btn-primary" type="submit">Request Maintenance Review</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -2,53 +2,26 @@
   publish = "."
   command = ""
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
 [[redirects]]
   from = "/start-a-project"
   to = "/start-a-project.html"
   status = 200
-[[redirects]]
-  from = "/handyman-services"
-  to = "/handyman-services.html"
-  status = 200
-[[redirects]]
-  from = "/renovations"
-  to = "/renovations.html"
-  status = 200
+
 [[redirects]]
   from = "/fix-list-builder"
   to = "/fix-list-builder.html"
   status = 200
+
 [[redirects]]
   from = "/maintenance-plans"
   to = "/maintenance-plans.html"
   status = 200
+
 [[redirects]]
   from = "/inspection-report-repairs"
   to = "/inspection-report-repairs.html"
   status = 200
-[[redirects]]
-  from = "/pricing"
-  to = "/pricing.html"
-  status = 200
-[[redirects]]
-  from = "/not-a-fit"
-  to = "/not-a-fit.html"
-  status = 200
-[[redirects]]
-  from = "/service-areas"
-  to = "/service-areas.html"
-  status = 200
-[[redirects]]
-  from = "/contact"
-  to = "/contact.html"
-  status = 200
+
 [[redirects]]
   from = "/thank-you"
   to = "/thank-you.html"
