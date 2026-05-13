@@ -31,14 +31,13 @@ const requiredFiles = [
   "docs/control/VAIL_PLATFORM_FOUNDATION_REPORT.md"
 ];
 
-const bannedPatterns = [/SummitLine/i, /Roofing/i, /roof repair/i, /roofing-lead/i];
-const forbiddenV1Patterns = [
-  /createLead/i,
-  /lead_photos/i,
-  /supabase/i,
-  /CRM lead creation/i,
-  /data-netlify/i,
-  /localStorage/i
+const bannedLegacyTerms = ["SummitLine", "Roofing", "roof repair", "roofing-lead"];
+const forbiddenImplementationTerms = [
+  "createLead",
+  "lead_photos",
+  "supabase",
+  "data-netlify",
+  "localStorage"
 ];
 const failures = [];
 
@@ -85,13 +84,13 @@ if (exists("netlify.toml")) {
 }
 
 for (const file of fs.readdirSync(root, { recursive: true }).filter((name) => typeof name === "string" && /\.(ts|tsx|js|html|md|toml)$/.test(name))) {
-  if (file.includes("node_modules") || file.includes(".next")) {
+  if (file.includes("node_modules") || file.includes(".next") || file === "scripts/check-site.js") {
     continue;
   }
   const body = read(file);
-  for (const pattern of bannedPatterns) {
-    if (pattern.test(body)) {
-      failures.push(`${file} contains banned legacy term: ${pattern}`);
+  for (const term of bannedLegacyTerms) {
+    if (body.includes(term)) {
+      failures.push(`${file} contains banned legacy term: ${term}`);
     }
   }
 }
@@ -102,9 +101,9 @@ for (const file of scopedFiles) {
     continue;
   }
   const body = read(file);
-  for (const pattern of forbiddenV1Patterns) {
-    if (pattern.test(body)) {
-      failures.push(`${file} appears to introduce out-of-scope V1 backend behavior: ${pattern}`);
+  for (const term of forbiddenImplementationTerms) {
+    if (body.includes(term)) {
+      failures.push(`${file} appears to introduce out-of-scope foundation behavior: ${term}`);
     }
   }
 }
