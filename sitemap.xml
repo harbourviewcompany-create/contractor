@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://vail-renovations.netlify.app/</loc></url>
-  <url><loc>https://vail-renovations.netlify.app/start-a-project</loc></url>
-  <url><loc>https://vail-renovations.netlify.app/fix-list-builder</loc></url>
-  <url><loc>https://vail-renovations.netlify.app/maintenance-plans</loc></url>
-  <url><loc>https://vail-renovations.netlify.app/inspection-report-repairs</loc></url>
-  <url><loc>https://vail-renovations.netlify.app/thank-you</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services/bathroom-renovations</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services/basement-renovations</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services/kitchen-updates</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services/repairs-refreshes</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services/pre-sale-improvements</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/services/rental-turnovers</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/how-it-works</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/project-request</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/scope-builder</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/book-call</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/callback</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/contact</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/privacy</loc></url>
+  <url><loc>https://vail-renovations.netlify.app/terms</loc></url>
 </urlset>
