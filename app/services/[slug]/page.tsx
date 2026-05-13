@@ -1,18 +1,30 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { serviceRoutes } from "@/lib/routes";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
 
+function getServiceBySlug(slug: string) {
+  return serviceRoutes.find((route) => route.href.endsWith(`/${slug}`));
+}
+
 export function generateStaticParams() {
-  return serviceRoutes.map((route) => ({ slug: route.href.split("/").pop() }));
+  return serviceRoutes.map((route) => {
+    const slug = route.href.split("/").pop();
+
+    if (!slug) {
+      throw new Error(`Missing service slug for route: ${route.href}`);
+    }
+
+    return { slug };
+  });
 }
 
 export async function generateMetadata({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = serviceRoutes.find((route) => route.href.endsWith(`/${slug}`));
+  const service = getServiceBySlug(slug);
 
   if (!service) {
     return {};
@@ -26,7 +38,7 @@ export async function generateMetadata({ params }: ServicePageProps) {
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = serviceRoutes.find((route) => route.href.endsWith(`/${slug}`));
+  const service = getServiceBySlug(slug);
 
   if (!service) {
     notFound();
