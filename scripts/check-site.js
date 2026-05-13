@@ -3,36 +3,51 @@ const path = require("node:path");
 
 const root = process.cwd();
 const requiredFiles = [
-  "index.html",
-  "start-a-project.html",
-  "fix-list-builder.html",
-  "maintenance-plans.html",
-  "inspection-report-repairs.html",
-  "thank-you.html",
-  "assets/styles.css",
-  "assets/app.js",
+  "package.json",
+  "next.config.ts",
+  "tsconfig.json",
+  "tailwind.config.ts",
+  "postcss.config.js",
+  "eslint.config.mjs",
+  "app/layout.tsx",
+  "app/page.tsx",
+  "app/globals.css",
+  "app/services/page.tsx",
+  "app/services/[slug]/page.tsx",
+  "app/how-it-works/page.tsx",
+  "app/project-request/page.tsx",
+  "app/scope-builder/page.tsx",
+  "app/book-call/page.tsx",
+  "app/callback/page.tsx",
+  "app/contact/page.tsx",
+  "app/privacy/page.tsx",
+  "app/terms/page.tsx",
+  "components/site-header.tsx",
+  "components/site-footer.tsx",
+  "components/mobile-cta-bar.tsx",
+  "components/placeholder-page.tsx",
+  "lib/routes.ts",
   "netlify.toml",
-  "_redirects",
-  "robots.txt",
-  "sitemap.xml",
+  "docs/control/VAIL_PLATFORM_FOUNDATION_REPORT.md"
 ];
 
-const formRequirements = {
-  "start-a-project.html": "vail-project-intake",
-  "fix-list-builder.html": "vail-fix-list",
-  "maintenance-plans.html": "vail-maintenance-plan",
-  "inspection-report-repairs.html": "vail-inspection-report",
-};
-
 const bannedPatterns = [/SummitLine/i, /Roofing/i, /roof repair/i, /roofing-lead/i];
+const forbiddenV1Patterns = [
+  /createLead/i,
+  /lead_photos/i,
+  /supabase/i,
+  /CRM lead creation/i,
+  /data-netlify/i,
+  /localStorage/i
+];
 const failures = [];
-
-function read(file) {
-  return fs.readFileSync(path.join(root, file), "utf8");
-}
 
 function exists(file) {
   return fs.existsSync(path.join(root, file));
+}
+
+function read(file) {
+  return fs.readFileSync(path.join(root, file), "utf8");
 }
 
 for (const file of requiredFiles) {
@@ -41,65 +56,65 @@ for (const file of requiredFiles) {
   }
 }
 
-for (const [file, formName] of Object.entries(formRequirements)) {
-  if (!exists(file)) {
-    continue;
-  }
-
-  const html = read(file);
-  const formPattern = new RegExp(`<form[^>]*name=["']${formName}["'][\\s\\S]*?</form>`, "i");
-  const formMatch = html.match(formPattern);
-
-  if (!formMatch) {
-    failures.push(`${file} is missing form ${formName}`);
-    continue;
-  }
-
-  const form = formMatch[0];
-  const checks = [
-    { label: "method=\"POST\"", pattern: /method=["']POST["']/i },
-    { label: "data-netlify=\"true\"", pattern: /data-netlify=["']true["']/i },
-    { label: "action=\"/thank-you\"", pattern: /action=["']\/thank-you["']/i },
-    { label: "netlify-honeypot=\"bot-field\"", pattern: /netlify-honeypot=["']bot-field["']/i },
-    { label: "hidden form-name input", pattern: new RegExp(`<input[^>]*type=["']hidden["'][^>]*name=["']form-name["'][^>]*value=["']${formName}["']`, "i") },
-    { label: "honeypot input", pattern: /<input[^>]*name=["']bot-field["']/i },
-  ];
-
-  for (const check of checks) {
-    if (!check.pattern.test(form)) {
-      failures.push(`${file} form ${formName} is missing ${check.label}`);
+if (exists("package.json")) {
+  const packageJson = JSON.parse(read("package.json"));
+  const scripts = packageJson.scripts || {};
+  for (const script of ["dev", "build", "typecheck", "lint", "check"]) {
+    if (!scripts[script]) {
+      failures.push(`package.json is missing script: ${script}`);
     }
   }
-}
-
-for (const file of fs.readdirSync(root).filter((name) => name.endsWith(".html"))) {
-  const html = read(file);
-  for (const pattern of bannedPatterns) {
-    if (pattern.test(html)) {
-      failures.push(`${file} contains banned legacy term: ${pattern}`);
+  for (const dependency of ["next", "react", "react-dom"]) {
+    if (!packageJson.dependencies || !packageJson.dependencies[dependency]) {
+      failures.push(`package.json is missing dependency: ${dependency}`);
     }
   }
 }
 
 if (exists("netlify.toml")) {
   const netlifyConfig = read("netlify.toml");
-  if (!/publish\s*=\s*["']\.["']/.test(netlifyConfig)) {
-    failures.push('netlify.toml must contain publish = "."');
+  if (!/command\s*=\s*["']npm run build["']/.test(netlifyConfig)) {
+    failures.push('netlify.toml must run "npm run build"');
   }
-  if (/publish\s*=\s*["']dist["']/.test(netlifyConfig)) {
-    failures.push('netlify.toml must not contain publish = "dist"');
+  if (!/publish\s*=\s*["']\.next["']/.test(netlifyConfig)) {
+    failures.push('netlify.toml must publish ".next"');
   }
-  if (!/command\s*=\s*["']["']/.test(netlifyConfig)) {
-    failures.push('netlify.toml must contain command = ""');
+  if (!/@netlify\/plugin-nextjs/.test(netlifyConfig)) {
+    failures.push("netlify.toml must include @netlify/plugin-nextjs");
+  }
+}
+
+for (const file of fs.readdirSync(root, { recursive: true }).filter((name) => typeof name === "string" && /\.(ts|tsx|js|html|md|toml)$/.test(name))) {
+  if (file.includes("node_modules") || file.includes(".next")) {
+    continue;
+  }
+  const body = read(file);
+  for (const pattern of bannedPatterns) {
+    if (pattern.test(body)) {
+      failures.push(`${file} contains banned legacy term: ${pattern}`);
+    }
+  }
+}
+
+const scopedFiles = ["app/project-request/page.tsx", "app/scope-builder/page.tsx", "app/callback/page.tsx"];
+for (const file of scopedFiles) {
+  if (!exists(file)) {
+    continue;
+  }
+  const body = read(file);
+  for (const pattern of forbiddenV1Patterns) {
+    if (pattern.test(body)) {
+      failures.push(`${file} appears to introduce out-of-scope V1 backend behavior: ${pattern}`);
+    }
   }
 }
 
 if (failures.length > 0) {
-  console.error("Static site check failed:");
+  console.error("Platform foundation check failed:");
   for (const failure of failures) {
     console.error(`- ${failure}`);
   }
   process.exit(1);
 }
 
-console.log("Static site check passed.");
+console.log("Platform foundation check passed.");
