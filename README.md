@@ -28,4 +28,4 @@ Netlify settings:
 - Build command: blank
 - Publish directory: `.`
 
-Run `npm run check` before deploying.
+Run `npm run check` before deploying; it validates both top-level and nested HTML pages for banned legacy terms/content.
