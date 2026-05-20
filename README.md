@@ -28,4 +28,4 @@ Netlify settings:
 - Build command: blank
 - Publish directory: `.`
 
-Run `npm run check` before deploying.
+Run `npm run check` before deploying. It now validates `.html` files in nested directories as well.
