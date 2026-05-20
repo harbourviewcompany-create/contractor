@@ -29,3 +29,7 @@ Netlify settings:
 - Publish directory: `.`
 
 Run `npm run check` before deploying.
+
+## Rewrite configuration
+
+Route rewrites are maintained only in `netlify.toml` (the `[[redirects]]` blocks). Keep `_redirects` free of route entries to avoid duplicate definitions.

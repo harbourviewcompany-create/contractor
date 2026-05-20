@@ -1,5 +1,2 @@
-/start-a-project /start-a-project.html 200
-/fix-list-builder /fix-list-builder.html 200
-/maintenance-plans /maintenance-plans.html 200
-/inspection-report-repairs /inspection-report-repairs.html 200
-/thank-you /thank-you.html 200
+# Route rewrites are maintained in netlify.toml.
+# Keep this file free of route entries to avoid duplicate definitions.

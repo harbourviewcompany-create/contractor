@@ -12,7 +12,6 @@ const requiredFiles = [
   "assets/styles.css",
   "assets/app.js",
   "netlify.toml",
-  "_redirects",
   "robots.txt",
   "sitemap.xml",
 ];
@@ -22,6 +21,14 @@ const formRequirements = {
   "fix-list-builder.html": "vail-fix-list",
   "maintenance-plans.html": "vail-maintenance-plan",
   "inspection-report-repairs.html": "vail-inspection-report",
+};
+
+const requiredRouteRewrites = {
+  "/start-a-project": "/start-a-project.html",
+  "/fix-list-builder": "/fix-list-builder.html",
+  "/maintenance-plans": "/maintenance-plans.html",
+  "/inspection-report-repairs": "/inspection-report-repairs.html",
+  "/thank-you": "/thank-you.html",
 };
 
 const bannedPatterns = [/SummitLine/i, /Roofing/i, /roof repair/i, /roofing-lead/i];
@@ -91,6 +98,45 @@ if (exists("netlify.toml")) {
   }
   if (!/command\s*=\s*["']["']/.test(netlifyConfig)) {
     failures.push('netlify.toml must contain command = ""');
+  }
+
+  const redirectBlocks = [...netlifyConfig.matchAll(/\[\[redirects\]\]([\s\S]*?)(?=\n\[\[redirects\]\]|$)/g)];
+  const configuredRewrites = new Map();
+
+  for (const [, block] of redirectBlocks) {
+    const fromMatch = block.match(/from\s*=\s*["']([^"']+)["']/);
+    const toMatch = block.match(/to\s*=\s*["']([^"']+)["']/);
+    const statusMatch = block.match(/status\s*=\s*(\d+)/);
+
+    if (!fromMatch || !toMatch || !statusMatch) {
+      continue;
+    }
+
+    if (statusMatch[1] === "200") {
+      configuredRewrites.set(fromMatch[1], toMatch[1]);
+    }
+  }
+
+  for (const [fromPath, toPath] of Object.entries(requiredRouteRewrites)) {
+    if (!configuredRewrites.has(fromPath)) {
+      failures.push(`netlify.toml is missing rewrite from ${fromPath} to ${toPath}`);
+      continue;
+    }
+
+    if (configuredRewrites.get(fromPath) !== toPath) {
+      failures.push(`netlify.toml rewrite ${fromPath} must point to ${toPath}`);
+    }
+  }
+}
+
+if (exists("_redirects")) {
+  const redirectsFile = read("_redirects");
+  for (const fromPath of Object.keys(requiredRouteRewrites)) {
+    const escapedPath = fromPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const duplicatePattern = new RegExp(`^\\s*${escapedPath}\\s+`, "m");
+    if (duplicatePattern.test(redirectsFile)) {
+      failures.push(`_redirects must not duplicate rewrite for ${fromPath}; use netlify.toml only`);
+    }
   }
 }
 
