@@ -72,7 +72,28 @@ for (const [file, formName] of Object.entries(formRequirements)) {
   }
 }
 
-for (const file of fs.readdirSync(root).filter((name) => name.endsWith(".html"))) {
+function collectHtmlFiles(dir, baseDir = dir) {
+  const ignoredDirectories = new Set([".git", "node_modules"]);
+  const htmlFiles = [];
+
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      if (ignoredDirectories.has(entry.name)) {
+        continue;
+      }
+      htmlFiles.push(...collectHtmlFiles(path.join(dir, entry.name), baseDir));
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith(".html")) {
+      htmlFiles.push(path.relative(baseDir, path.join(dir, entry.name)));
+    }
+  }
+
+  return htmlFiles;
+}
+
+for (const file of collectHtmlFiles(root)) {
   const html = read(file);
   for (const pattern of bannedPatterns) {
     if (pattern.test(html)) {
