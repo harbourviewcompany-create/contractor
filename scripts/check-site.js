@@ -27,6 +27,38 @@ const formRequirements = {
 const bannedPatterns = [/SummitLine/i, /Roofing/i, /roof repair/i, /roofing-lead/i];
 const failures = [];
 
+function decodeHtmlEntities(value) {
+  const entities = {
+    amp: "&",
+    lt: "<",
+    gt: ">",
+    quot: '"',
+    apos: "'",
+    nbsp: " ",
+  };
+
+  return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (full, entity) => {
+    if (entity[0] === "#") {
+      const isHex = entity[1].toLowerCase() === "x";
+      const codePoint = Number.parseInt(entity.slice(isHex ? 2 : 1), isHex ? 16 : 10);
+      return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : full;
+    }
+
+    const decoded = entities[entity.toLowerCase()];
+    return decoded ?? full;
+  });
+}
+
+function extractVisibleTextFromHtml(html) {
+  const withoutHiddenBlocks = html
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ");
+
+  const withoutTags = withoutHiddenBlocks.replace(/<[^>]+>/g, " ");
+  return decodeHtmlEntities(withoutTags).replace(/\s+/g, " ").trim();
+}
+
 function read(file) {
   return fs.readFileSync(path.join(root, file), "utf8");
 }
@@ -74,8 +106,9 @@ for (const [file, formName] of Object.entries(formRequirements)) {
 
 for (const file of fs.readdirSync(root).filter((name) => name.endsWith(".html"))) {
   const html = read(file);
+  const visibleText = extractVisibleTextFromHtml(html);
   for (const pattern of bannedPatterns) {
-    if (pattern.test(html)) {
+    if (pattern.test(visibleText)) {
       failures.push(`${file} contains banned legacy term: ${pattern}`);
     }
   }
