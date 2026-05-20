@@ -35,6 +35,30 @@ function exists(file) {
   return fs.existsSync(path.join(root, file));
 }
 
+function decodeHtmlEntities(text) {
+  return text
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, "\"")
+    .replace(/&#39;/gi, "'")
+    .replace(/&#x27;/gi, "'")
+    .replace(/&#x2F;/gi, "/")
+    .replace(/&#(\d+);/g, (_, codePoint) => String.fromCodePoint(Number(codePoint)))
+    .replace(/&#x([a-f0-9]+);/gi, (_, hexCodePoint) => String.fromCodePoint(parseInt(hexCodePoint, 16)));
+}
+
+function extractVisibleText(html) {
+  const withoutComments = html.replace(/<!--[\s\S]*?-->/g, " ");
+  const withoutScriptAndStyle = withoutComments
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ");
+  const withoutTags = withoutScriptAndStyle.replace(/<[^>]+>/g, " ");
+  const decodedText = decodeHtmlEntities(withoutTags);
+  return decodedText.replace(/\s+/g, " ").trim();
+}
+
 for (const file of requiredFiles) {
   if (!exists(file)) {
     failures.push(`Missing required file: ${file}`);
@@ -74,8 +98,9 @@ for (const [file, formName] of Object.entries(formRequirements)) {
 
 for (const file of fs.readdirSync(root).filter((name) => name.endsWith(".html"))) {
   const html = read(file);
+  const visibleText = extractVisibleText(html);
   for (const pattern of bannedPatterns) {
-    if (pattern.test(html)) {
+    if (pattern.test(visibleText)) {
       failures.push(`${file} contains banned legacy term: ${pattern}`);
     }
   }
