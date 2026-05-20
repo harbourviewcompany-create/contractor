@@ -12,9 +12,16 @@ const requiredFiles = [
   "assets/styles.css",
   "assets/app.js",
   "netlify.toml",
-  "_redirects",
   "robots.txt",
   "sitemap.xml",
+];
+
+const requiredRewrites = [
+  ["/start-a-project", "/start-a-project.html"],
+  ["/fix-list-builder", "/fix-list-builder.html"],
+  ["/maintenance-plans", "/maintenance-plans.html"],
+  ["/inspection-report-repairs", "/inspection-report-repairs.html"],
+  ["/thank-you", "/thank-you.html"],
 ];
 
 const formRequirements = {
@@ -33,6 +40,10 @@ function read(file) {
 
 function exists(file) {
   return fs.existsSync(path.join(root, file));
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 for (const file of requiredFiles) {
@@ -91,6 +102,27 @@ if (exists("netlify.toml")) {
   }
   if (!/command\s*=\s*["']["']/.test(netlifyConfig)) {
     failures.push('netlify.toml must contain command = ""');
+  }
+
+  for (const [from, to] of requiredRewrites) {
+    const rewritePattern = new RegExp(
+      `\\[\\[redirects\\]\\][\\s\\S]*?from\\s*=\\s*["']${escapeRegExp(from)}["'][\\s\\S]*?to\\s*=\\s*["']${escapeRegExp(to)}["'][\\s\\S]*?status\\s*=\\s*200`,
+      "m",
+    );
+
+    if (!rewritePattern.test(netlifyConfig)) {
+      failures.push(`netlify.toml is missing rewrite ${from} -> ${to} (200)`);
+    }
+  }
+}
+
+if (exists("_redirects")) {
+  const redirects = read("_redirects");
+  for (const [from, to] of requiredRewrites) {
+    const redirectLine = new RegExp(`^\\s*${escapeRegExp(from)}\\s+${escapeRegExp(to)}\\s+200\\s*$`, "m");
+    if (redirectLine.test(redirects)) {
+      failures.push(`_redirects duplicates netlify.toml rewrite ${from} -> ${to} (200)`);
+    }
   }
 }
 
