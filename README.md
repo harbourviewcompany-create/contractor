@@ -28,4 +28,6 @@ Netlify settings:
 - Build command: blank
 - Publish directory: `.`
 
+Route rewrites are maintained in `netlify.toml` (`[[redirects]]` entries) to keep deploy configuration centralized.
+
 Run `npm run check` before deploying.
