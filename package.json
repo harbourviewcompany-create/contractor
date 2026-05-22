@@ -1,7 +1,31 @@
 {
-  "name": "vail-renovations-static-site",
+  "name": "vail-renovations-platform",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "check": "node scripts/check-site.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "check": "node scripts/check-site.js && npm run typecheck && npm run build"
+  },
+  "dependencies": {
+    "next": "15.3.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.1",
+    "@netlify/plugin-nextjs": "5.11.3",
+    "@types/node": "22.15.30",
+    "@types/react": "19.0.12",
+    "@types/react-dom": "19.0.4",
+    "autoprefixer": "10.4.21",
+    "eslint": "9.28.0",
+    "eslint-config-next": "15.3.4",
+    "postcss": "8.5.6",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.8.3"
   }
 }
